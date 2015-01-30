@@ -20,12 +20,13 @@ public class SendingMessage extends Task {
 	protected Void call() throws Exception {
 		
 
-		if (StartClientServer.sr.serS!=null) {
+		if (StartClientServer.sr.serS!=null&&!StartClientServer.sr.serS.isClosed()) {
+			System.out.println("Тук");
 			// DataInputStream in = new DataInputStream(Server.inS);
 			DataOutputStream out = new DataOutputStream(Server.outS);
 			try {
-				updateMessage("Client "+"("+currentDate+")"+":"+Hui.sendingMessage.getText());
-				out.writeUTF("Client "+"("+currentDate+")"+":"+Hui.sendingMessage.getText());
+				updateMessage("Server "+"("+currentDate+")"+":"+Hui.sendingMessage.getText());
+				out.writeUTF("Server "+"("+currentDate+")"+":"+Hui.sendingMessage.getText());
 				//Hui.commonChat.setText(Hui.commonChat.getText() +"\n"+"Server: "+Hui.sendingMessage.getText());
 				//Hui.sendingMessage.setText("");
 				updateMessage("");
@@ -36,11 +37,13 @@ public class SendingMessage extends Task {
 		} else {
 			DataOutputStream out = new DataOutputStream(Client.outC);
 			try {
+				
 				updateMessage("Client "+"("+currentDate+")"+":"+Hui.sendingMessage.getText());
-				out.writeUTF("Server "+"("+currentDate+")"+":"+Hui.sendingMessage.getText());
+				out.writeUTF("Client "+"("+currentDate+")"+":"+Hui.sendingMessage.getText());
 				//Hui.commonChat.setText(Hui.commonChat.getText() +"\n"+"Client: "+Hui.sendingMessage.getText());
 				//Hui.sendingMessage.setText("");
 				updateMessage("");
+				System.out.println("Отправлено сообщение");
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

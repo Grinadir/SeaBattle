@@ -17,11 +17,14 @@ public class Client {
 	//static public OutputStream infoOutputC;
 
 	public Client() throws IOException {
-		ip = InetAddress.getLocalHost();
+		//ip = InetAddress.getLocalHost();
+		ip=InetAddress.getByName("192.168.100.6");
+		//ip=InetAddress.getByAddress(192.168.100.2);
 
 	}
 
 	public void clientWorking() throws IOException, InterruptedException {
+		System.out.println("Attetion! clientWorking");
 		DataInputStream in = new DataInputStream(Server.inS);
 		clS = new Socket(ip, port);
 		inC=clS.getInputStream();
@@ -39,6 +42,7 @@ public class Client {
 			//		+ "Сервер подключился");
 			//Hui.commonChat.setText(Hui.commonChat.getText() + "\n"
 				//	+ "Сервер подключился");
+			System.out.println("cls.isConnected: "+clS.isConnected());
 		} else {
 
 			clS.close();
@@ -46,6 +50,7 @@ public class Client {
 			//		+ "Клиент закрыт\n" + "Значение clS" + clS);
 			//Hui.commonChat.setText(Hui.commonChat.getText() + "\n"
 				//	 + "Клиент закрыт\n" + "Значение clS" + clS);
+			System.out.println("Выполнена команда close, cls.isClose: "+clS.isClosed());
 		}
 	}
 

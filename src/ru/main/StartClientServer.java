@@ -51,25 +51,35 @@ public class StartClientServer extends Task {
 
 				}
 
-				System.out.print("Цикл\n");
-				System.out.print("sr.serSv=" + sr.serS + "\n");
+				System.out.println("Прошел цикл, Итоги:");
+				
+				System.out.println("sr.serSv: " + sr.serS);
+				
 				try {
-					System.out.print("sr.serS.isClosed()" + sr.serS.isClosed()
-							+ "\n");
+					System.out.println("sr.serS.isClosed()"
+							+ sr.serS.isClosed());
 				} catch (NullPointerException e) {
 					System.out.println("catch sr.serS=" + sr.serS + "\n");
 				}
-				System.out.print("cl.clS=" + cl.clS + "\n");
+				System.out.println("cl.clS: " + cl.clS);
+				
 
 			} while (sr.serS != null && sr.serS.isClosed() && cl.clS == null);
-			
-			System.out.println("Что то произошло удачно");
+			cw=false;
 
-			if (StartClientServer.sr.serS != null) {
+			System.out.println("_____________________");
+			System.out.println("Произошло подключение");
+			System.out.println("sr.s: " + sr.s);
+			System.out.println("cl.clS: " + cl.clS);
+			System.out.println("sr.serS.isClosed(): " + sr.serS.isClosed());
+			System.out.println("cl.clS.isClosed(): " + cl.clS.isClosed());
+
+			if ((StartClientServer.sr.serS != null)
+					&& (sr.serS.isClosed() == false)) {
 				System.out.println("Запуск входящего потока сервера");
 				DataInputStream in = new DataInputStream(Server.inS);
 				while (true) {
-					
+
 					line = in.readUTF(); // ожидаем пока клиент пришлет строку
 											// текста.
 					// g.textArea.setText(g.textArea.getText()+"\n"+ "Client: "
@@ -77,16 +87,15 @@ public class StartClientServer extends Task {
 					System.out.println("Запуск входящего потока сервера");
 					System.out.println(line);
 					updateMessage(line);
-					
 
 				}
 
 			} else {
-				DataInputStream in = new DataInputStream(StartClientServer.cl.inC);
+				DataInputStream in = new DataInputStream(Client.inC);
 				System.out.println("Запуск входящего потока клиент");
 
 				while (true) {
-					
+
 					line = in.readUTF(); // ожидаем пока клиент пришлет строку
 											// текста.
 
@@ -95,7 +104,7 @@ public class StartClientServer extends Task {
 					System.out.println("Запуск входящего потока клиента");
 					System.out.println(line);
 					updateMessage(line);
-					
+
 				}
 
 			}

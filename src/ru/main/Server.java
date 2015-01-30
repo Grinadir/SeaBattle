@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 public class Server {
 	InetAddress ip;
 	ServerSocket serS;
+	Socket s;
 	int port = 8080;
 	public static InputStream inS;
 	public static OutputStream outS;
@@ -36,7 +37,7 @@ public class Server {
 			// + "Значение сервера" + serS+"\n");
 			// Hui.commonChat.setText(Hui.commonChat.getText() + "\n"
 			// + "Ждем клиента...\n");
-			Socket s = serS.accept();
+			s = serS.accept();
 			// Hui.commonChat.setText(Hui.commonChat.getText() + "\n"
 			// + "Пришел клиент!!!\n");
 			System.out.println("Пришел клиент!!");
