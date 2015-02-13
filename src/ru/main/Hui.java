@@ -10,7 +10,8 @@ import java.util.concurrent.Executors;
 
 import javax.swing.text.AbstractDocument.Content;
 
-import ru.main.Thing.OneShip;
+
+import ru.main.MyRectangle;
 
 import com.sun.javafx.property.adapter.PropertyDescriptor.Listener;
 
@@ -44,7 +45,7 @@ import javafx.scene.shape.Rectangle;
 public class Hui extends Application {
 
 	public static MyRectangle[] rectMY = new MyRectangle[100];
-	public static MyRectangle[] rectENEMY = new MyRectangle[100];
+	public static EnemyRectangle[] rectENEMY = new EnemyRectangle[100];
 
 	static boolean forCircle = false;
 	int i = 0;
@@ -55,6 +56,7 @@ public class Hui extends Application {
 	static TextArea sendingMessage = new TextArea();
 	static Button bStart = new Button("Start");
 	static Button sendMessage = new Button("Send");
+	static Button fireButton=new Button("Огонь");
 
 	static ToggleGroup group = new ToggleGroup();
 	static RadioButton ranking = new RadioButton("Ranking");
@@ -65,441 +67,34 @@ public class Hui extends Application {
 	static RadioButton three = new RadioButton("Three 2 pcs.");
 	static RadioButton two = new RadioButton("Two 3 pcs.");
 	static RadioButton one = new RadioButton("One 4 pcs.");
-	int count = 0;
-	public int saveX;
-	public int saveY;
+	static int count2 = 0;
+	static int count3 = 0;
+	static int count4 = 0;
+	public static int saveX;
+	public static int saveY;
 
-	Ship oneS = new Ship(4, 1);
-	OneShip o1 = new OneShip(0, 0);
-	OneShip o2 = new OneShip(0, 0);
-	OneShip o3 = new OneShip(0, 0);
-	OneShip o4 = new OneShip(0, 0);
+	public static int saveX1;
+	public static int saveY1;
 
-	class MyRectangle extends Rectangle {
+	public static int saveX2;
+	public static int saveY2;
 
-		int x;
-		int y;
-		int veto = 0;
-		int type=0;
-		int oneAmount=4;
+	public static int saveX3;
+	public static int saveY3;
 
-		public MyRectangle(double width, double height, int e) {
-			setWidth(width);
-			setHeight(height);
+	public static int saveX4;
+	public static int saveY4;
 
-			this.setOnMouseClicked(new EventHandler<Event>() {
+	
 
-				@Override
-				public void handle(Event event) {
+	static int oneAmount = 4;
+	static int twoAmount = 3;
+	static int threeAmount = 2;
+	static int fourAmount = 1;
 
-					if (no.isSelected()) {
-						// System.out.println("i="+i+" numLine="+numLine);
-						if (getFill() == javafx.scene.paint.Color.RED) {
 
-							setFill(javafx.scene.paint.Color.GREEN);
-						} else {
-							setFill(javafx.scene.paint.Color.RED);
-						}
 
-						System.out.println("FF");
-					}
 
-					if (ranking.isSelected() && one.isSelected()
-							&& oneAmount == 0
-							&& (getFill() != javafx.scene.paint.Color.YELLOW&&getFill() != javafx.scene.paint.Color.GREEN)) {
-
-						System.out.println("tuur");
-						if (getFill() == javafx.scene.paint.Color.BLUE) {
-							
-							setFill(javafx.scene.paint.Color.GREEN);
-							oneAmount++;
-							marketGreen(x, y);
-						}
-
-					}
-
-					else if (ranking.isSelected() && one.isSelected()
-							&& oneAmount != 0
-							&& (getFill() != javafx.scene.paint.Color.YELLOW)) {
-
-						System.out.println("!!!!!!!!!!!!!!!!!");
-						switch (oneAmount) {
-						case 4:
-							System.out.println(oneAmount);
-							
-							System.out.println("i+1 "+rectMY[1].veto);
-							System.out.println("i+10 "+rectMY[10].veto);
-							System.out.println("i+11 "+rectMY[11].veto);
-							
-							type=1;
-							//o1.x = x;
-							//o1.y = y;
-
-							
-
-							if (getFill() == javafx.scene.paint.Color.GREEN) {
-
-								setFill(javafx.scene.paint.Color.BLUE);
-								marketYellow(x, y);
-								
-								System.out.println("if i+1 "+rectMY[1].veto);
-								System.out.println("if i+10 "+rectMY[10].veto);
-								System.out.println("if i+11 "+rectMY[11].veto);
-								oneAmount--;
-							} else {
-								marketGreen(x, y);
-								setFill(javafx.scene.paint.Color.GREEN);
-								System.out.println("else i+1 "+rectMY[1].veto);
-								System.out.println("else i+10 "+rectMY[10].veto);
-								System.out.println("else i+11 "+rectMY[11].veto);
-								oneAmount++;
-							}
-							;
-							break;
-
-						case 3:
-							System.out.println(oneAmount);
-							//o2.x = x;
-							//o2.y = y;
-							type=1;
-
-							
-
-							if (getFill() == javafx.scene.paint.Color.GREEN) {
-								marketYellow(x, y);
-								setFill(javafx.scene.paint.Color.BLUE);
-
-								oneAmount--;
-							} else {
-								
-								System.out.println("else i+1 "+rectMY[1].veto);
-								System.out.println("else i+10 "+rectMY[10].veto);
-								System.out.println("else i+11 "+rectMY[11].veto);
-								marketGreen(x, y);
-								
-								setFill(javafx.scene.paint.Color.GREEN);
-								oneAmount++;
-							}
-							;
-							break;
-
-						case 2:
-							System.out.println(oneAmount);
-							//o3.x = x;
-							//o3.y = y;
-							type=1;
-
-							
-
-							if (getFill() == javafx.scene.paint.Color.GREEN) {
-								marketYellow(x, y);
-
-								setFill(javafx.scene.paint.Color.BLUE);
-								oneAmount--;
-							} else {
-								marketGreen(x, y);
-								setFill(javafx.scene.paint.Color.GREEN);
-								oneAmount++;
-							}
-							;
-							break;
-						case 1:
-							
-							System.out.println(oneAmount);
-							o1.x = x;
-							o1.y = y;
-
-							
-
-							if (getFill() == javafx.scene.paint.Color.GREEN) {
-								System.out.println("oneAmount");
-								marketYellow(x, y);
-								setFill(javafx.scene.paint.Color.BLUE);
-								oneAmount--;
-							} else {
-								marketGreen(x, y);
-								setFill(javafx.scene.paint.Color.GREEN);
-								oneAmount++;
-							}
-							;
-							break;
-
-						}
-
-					}
-					
-					else if (ranking.isSelected()&&two.isSelected()&& (getFill() != javafx.scene.paint.Color.YELLOW)){
-						
-						if (count == 0) {
-							saveX = x;
-							saveY = y;
-						}
-						++count;
-						if (saveX == x || saveY == y) {
-							setFill(javafx.scene.paint.Color.BLUE);
-
-						}
-						
-						
-					}
-					
-					
-
-					else {
-
-		
-					}
-				}
-
-			});
-
-			// Слушатель на кнопку старт
-
-		}
-
-	}
-
-	public void marketYellow(int x, int y) {
-
-		int i = y * 10 + x;
-		try {
-
-			if (x == 0 && y == 0) {
-				rectMY[i + 1].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i + 10].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i + 11].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i + 1].veto++;
-				rectMY[i + 10].veto++;
-				rectMY[i + 11].veto++;
-				System.out.println("i+1 "+rectMY[i + 1].veto);
-				System.out.println("i+10 "+rectMY[i + 10].veto);
-				System.out.println("i+11 "+rectMY[i + 11].veto);
-
-			}
-
-			else if (x == 0 && y == 9) {
-				rectMY[i + 1].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i - 10].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i - 9].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i + 1].veto++;
-				rectMY[i - 10].veto++;
-				rectMY[i - 9].veto++;
-
-			}
-
-			else if (x == 9 && y == 9) {
-				rectMY[i - 1].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i - 10].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i - 11].setFill(javafx.scene.paint.Color.YELLOW);
-
-				rectMY[i - 1].veto++;
-				rectMY[i - 10].veto++;
-				rectMY[i - 11].veto++;
-
-			}
-
-			else if (x == 9 && y == 0) {
-				rectMY[i - 1].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i + 10].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i + 9].setFill(javafx.scene.paint.Color.YELLOW);
-
-				rectMY[i - 1].veto++;
-				rectMY[i + 10].veto++;
-				rectMY[i + 9].veto++;
-
-			}
-
-			else if (x == 0) {
-				rectMY[i + 1].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i + 10].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i - 10].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i - 9].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i + 11].setFill(javafx.scene.paint.Color.YELLOW);
-
-				rectMY[i + 1].veto++;
-				rectMY[i + 10].veto++;
-				rectMY[i - 10].veto++;
-				rectMY[i - 9].veto++;
-				rectMY[i + 11].veto++;
-
-			}
-
-			else if (x == 9) {
-				rectMY[i - 1].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i + 10].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i - 10].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i + 9].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i - 11].setFill(javafx.scene.paint.Color.YELLOW);
-
-				rectMY[i - 1].veto++;
-				rectMY[i + 10].veto++;
-				rectMY[i - 10].veto++;
-				rectMY[i + 9].veto++;
-				rectMY[i - 11].veto++;
-
-			}
-
-			else if (y == 0) {
-				rectMY[i - 1].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i + 1].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i + 10].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i + 9].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i + 11].setFill(javafx.scene.paint.Color.YELLOW);
-
-				rectMY[i - 1].veto++;
-				rectMY[i + 1].veto++;
-				rectMY[i + 10].veto++;
-				rectMY[i + 9].veto++;
-				rectMY[i + 11].veto++;
-
-			}
-
-			else if (y == 9) {
-				rectMY[i - 1].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i + 1].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i - 10].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i - 9].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i - 11].setFill(javafx.scene.paint.Color.YELLOW);
-
-				rectMY[i - 1].veto++;
-				rectMY[i + 1].veto++;
-				rectMY[i - 10].veto++;
-				rectMY[i - 9].veto++;
-				rectMY[i - 11].veto++;
-			}
-
-			else {
-				rectMY[i + 1].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i - 1].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i + 10].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i - 10].setFill(javafx.scene.paint.Color.YELLOW);
-
-				rectMY[i + 11].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i - 11].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i + 9].setFill(javafx.scene.paint.Color.YELLOW);
-				rectMY[i - 9].setFill(javafx.scene.paint.Color.YELLOW);
-
-				rectMY[i + 1].veto++;
-				rectMY[i - 1].veto++;
-				rectMY[i + 10].veto++;
-				rectMY[i - 10].veto++;
-
-				rectMY[i + 11].veto++;
-				rectMY[i - 11].veto++;
-				rectMY[i + 9].veto++;
-				rectMY[i - 9].veto++;
-				System.out.println("asdf");
-			}
-		} catch (ArrayIndexOutOfBoundsException e) {
-
-		}
-	}
-
-	public void m(int s) {
-		System.out.println("Enter s.veto"+s+" "+ rectMY[s].veto );
-		if (rectMY[s].veto == 1) {
-			System.out.println("fffgggggrrrr");
-			rectMY[s].setFill(javafx.scene.paint.Color.GREEN);
-			rectMY[s].veto--;
-			//rectMY[s].veto--;
-			System.out.println("IF s.veto"+s+" "+ rectMY[s].veto );
-		} else {
-			
-			System.out.println("1111fffgggggrrrr");
-			System.out.println("else s.veto"+s+" "+ rectMY[s].veto );
-			rectMY[s].veto--;
-			//rectMY[s].veto--;
-			System.out.println("bef else s.veto"+s+" "+ rectMY[s].veto );
-			
-		}
-	}
-
-	public void marketGreen(int x, int y) {
-
-		int i = y * 10 + x;
-
-		try {
-
-			if (x == 0 && y == 0) {
-
-				m(i + 1);
-				m(i + 10);
-				m(i + 11);
-			}
-
-			else if (x == 0 && y == 9) {
-				m(i + 1);
-				m(i - 10);
-				m(i - 9);
-
-			}
-
-			else if (x == 9 && y == 9) {
-				m(i - 1);
-				m(i - 10);
-				m(i - 11);
-
-			}
-
-			else if (x == 9 && y == 0) {
-				m(i - 1);
-				m(i + 10);
-				m(i + 9);
-
-			}
-
-			else if (x == 0) {
-				m(i + 1);
-				m(i + 10);
-				m(i - 10);
-				m(i - 9);
-				m(i + 11);
-
-			}
-
-			else if (x == 9) {
-				m(i - 1);
-				m(i + 10);
-				m(i - 10);
-				m(i + 9);
-				m(i - 11);
-
-			}
-
-			else if (y == 0) {
-				m(i - 1);
-				m(i + 1);
-				m(i + 10);
-				m(i + 9);
-				m(i + 11);
-
-			}
-
-			else if (y == 9) {
-				m(i - 1);
-				m(i + 1);
-				m(i - 10);
-				m(i - 9);
-				m(i - 11);
-
-			}
-
-			else {
-				m(i + 1);
-				m(i - 1);
-				m(i + 10);
-				m(i - 10);
-
-				m(i + 11);
-				m(i - 11);
-				m(i + 9);
-				m(i - 9);
-			}
-		} catch (ArrayIndexOutOfBoundsException e) {
-
-		}
-
-	}
 
 	@Override
 	public void start(Stage primaryStage) throws IOException,
@@ -571,6 +166,45 @@ public class Hui extends Application {
 				service.start();
 			}
 		});
+		
+		
+		fireButton.setOnMouseClicked(new EventHandler<Event>() {
+			
+			@Override
+			public void handle(Event event){
+				final SendingTargetCoordinate sendMess = new SendingTargetCoordinate();
+
+				sendMess.messageProperty().addListener(
+						new ChangeListener<String>() {
+
+							@Override
+							public void changed(
+									ObservableValue<? extends String> observable,
+									String oldValue, String newValue) {
+								commonChat.setText(commonChat.getText() + "\n"
+										+ sendMess.getMessage());
+
+							}
+						});
+
+				Service service = new Service<Void>() {
+
+					@Override
+					protected Task<Void> createTask() {
+						// TODO Auto-generated method stub
+						return sendMess;
+					}
+
+				};
+				service.start();
+				
+			}
+			
+		});
+		
+		
+		
+		
 		commonChat.setEditable(false);
 		commonChat.selectEndOfNextWord();
 
@@ -722,11 +356,14 @@ public class Hui extends Application {
 		}
 
 		for (e = 0; e <= 99; ++e) {
-			rectENEMY[e] = new MyRectangle(10, 10, e);
+			rectENEMY[e] = new EnemyRectangle(10, 10, e);
 			rectENEMY[e].setFill(javafx.scene.paint.Color.GREEN);
+			
+			int numLine = (int) (10 - (10 - e * 0.1));
+			rectENEMY[e].x = (e - numLine * 10);
+			rectENEMY[e].y = numLine;
 			// rectMY[i].getFill();
 
-			int numLine = (int) (10 - (10 - e * 0.1));
 			System.out.println("e=" + e + " numLine=" + numLine);
 			// int numCol=(int)(i-numLine);
 
@@ -739,6 +376,7 @@ public class Hui extends Application {
 		myPane.add(ranking, 0, 1, 1, 1);
 		myPane.add(no, 1, 1, 1, 1);
 		myPane.add(shipType, 0, 2, 2, 1);
+		myPane.add(fireButton, 0, 3, 1, 1);
 		myPane.add(commonChat, 0, 11, 2, 1);
 		myPane.add(sendingMessage, 0, 12, 2, 1);
 		myPane.add(sendMessage, 0, 13, 1, 1);

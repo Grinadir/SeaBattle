@@ -19,7 +19,7 @@ public class StartClientServer extends Task {
 		cl = new Client();
 		boolean cw = true;
 		String mess;
-		if (cw == true) {
+	//	if (cw == true) {
 			// Подключение
 			do {
 
@@ -65,17 +65,9 @@ public class StartClientServer extends Task {
 				
 
 			} while (sr.serS != null && sr.serS.isClosed() && cl.clS == null);
-			cw=false;
-
-			System.out.println("_____________________");
-			System.out.println("Произошло подключение");
-			System.out.println("sr.s: " + sr.s);
-			System.out.println("cl.clS: " + cl.clS);
-			System.out.println("sr.serS.isClosed(): " + sr.serS.isClosed());
-			System.out.println("cl.clS.isClosed(): " + cl.clS.isClosed());
-
-			if ((StartClientServer.sr.serS != null)
-					&& (sr.serS.isClosed() == false)) {
+			//cw=false;
+			
+			try{
 				System.out.println("Запуск входящего потока сервера");
 				DataInputStream in = new DataInputStream(Server.inS);
 				while (true) {
@@ -87,12 +79,18 @@ public class StartClientServer extends Task {
 					System.out.println("Запуск входящего потока сервера");
 					System.out.println(line);
 					updateMessage(line);
-
 				}
-
-			} else {
+				
+			}
+			catch(NullPointerException e){
+				System.out.println("Срыв входящего потока сервера");
+				
+			}
+			
+			
+			try{
+				System.out.println("Запуск входящего потока клиента");
 				DataInputStream in = new DataInputStream(Client.inC);
-				System.out.println("Запуск входящего потока клиент");
 
 				while (true) {
 
@@ -104,12 +102,21 @@ public class StartClientServer extends Task {
 					System.out.println("Запуск входящего потока клиента");
 					System.out.println(line);
 					updateMessage(line);
-
 				}
-
+				
+			}
+			catch(NullPointerException e){
+				System.out.println("Срыв входящего потока клиента");
+				
 			}
 
-		}
+			System.out.println("_____________________");
+			System.out.println("Произошло подключение");
+			System.out.println("sr.s: " + sr.s);
+			System.out.println("cl.clS: " + cl.clS);
+			System.out.println("sr.serS.isClosed(): " + sr.serS.isClosed());
+			System.out.println("cl.clS.isClosed(): " + cl.clS.isClosed());
+
 		return null;
 
 	}
